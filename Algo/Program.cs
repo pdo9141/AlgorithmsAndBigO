@@ -16,7 +16,7 @@ namespace Algo
         {
             Random random = new Random();
             for (int i = 0; i < arraySize; i++)
-                theArray[i] = random.Next(10, 19);
+                theArray[i] = random.Next(10, 60);
         }
 
         public void PrintArray()
@@ -152,6 +152,61 @@ namespace Algo
             Console.WriteLine();
         }
 
+        public void PrintHorzArray(int i, int j, int h)
+        {
+            if (i == j)
+                i = i - h;
+
+            for (int n = 0; n < 51; n++)
+                Console.Write("-");
+
+            Console.WriteLine();
+
+            for (int n = 0; n < arraySize; n++)
+            {
+                Console.Write("| " + n + "  ");
+            }
+
+            Console.WriteLine("|");
+
+            for (int n = 0; n < 51; n++)
+                Console.Write("-");
+
+            Console.WriteLine();
+
+            for (int n = 0; n < arraySize; n++)
+            {
+                Console.Write("| " + theArray[n] + " ");
+            }
+
+            Console.WriteLine("|");
+
+            for (int n = 0; n < 51; n++)
+                Console.Write("-");
+
+            Console.WriteLine();
+
+            if (i != -1)
+            {
+                // Number of spaces to put before the F
+                int spacesBeforeFront = 5 * i + 1;
+
+                for (int k = 0; k < spacesBeforeFront; k++)
+                    Console.Write(" ");
+
+                Console.Write("I");
+
+                // Number of spaces to put before the R
+                int spacesBeforeRear = (5 * j + 1 - 1) - spacesBeforeFront;
+
+                for (int l = 0; l < spacesBeforeRear; l++)
+                    Console.Write(" ");
+
+                Console.Write("O");
+                Console.Write("\n");
+            }
+        }
+
         public void BubbleSort()
         {
             for (int i = arraySize - 1; i > 1; i--)
@@ -249,15 +304,160 @@ namespace Algo
             }
         }
 
+        // Sorts indexes at intervals to improve performance over insertion sort
+        // Insertion sort will not perform well if there's a big gap between numbers between intervals
+        public void ShellSort()
+        {
+            int inner, outer, temp;
+            int interval = 1;
+
+            while (interval <= arraySize / 3)
+            {
+                // Define an interval sequence
+                interval = interval * 3 + 1;
+            }
+
+            // Keep looping until the interval is 1
+            // Then this becomes an insertion sort
+            while (interval > 0)
+            {
+                // Continue incrementing outer until the end of the array is reached
+                for (outer = interval; outer < arraySize; outer++)
+                {
+                    // Store the value of the array in temp unless it has to be
+                    // copied to a space occupied by a bigger number closer to the
+                    // beginning of the array
+                    temp = theArray[outer];
+
+                    Console.WriteLine("Copy " + theArray[outer] + " into temp");
+
+                    // inner is assigned the value of the highest index to check
+                    // against all values the proceed it. Along the way if a
+                    // number is greater than temp it will be moved up in the array
+                    inner = outer;
+
+                    Console.WriteLine("Checking if " 
+                        + theArray[inner - interval] + " in index "
+                        + (inner - interval) + " is bigger than " + temp);
+
+                    // While there is a number bigger than temp move it further
+                    // up in the array
+                    while (inner > interval - 1 && theArray[inner - interval] >= temp)
+                    {
+                        Console.WriteLine("In While Checking if " + theArray[inner - interval] 
+                            + " in index " + (inner - interval) + " is bigger than " + temp);
+
+                        PrintHorzArray(inner, outer, interval);
+
+                        // Make room for the smaller temp by moving values in the array
+                        // up one space if they are greater than temp
+                        theArray[inner] = theArray[inner - interval];
+
+                        Console.WriteLine(theArray[inner - interval] + " moved to index" + inner);
+
+                        inner -= interval;
+
+                        Console.WriteLine("inner = " + inner);
+
+                        PrintHorzArray(inner, outer, interval);
+
+                        Console.WriteLine("outer = " + outer);
+                        Console.WriteLine("temp = " + temp);
+                        Console.WriteLine("interval = " + interval);
+                    }
+
+                    // Now that everything has been moved into place put the value
+                    // stored in temp into the index above the first value smaller than it is
+                    theArray[inner] = temp;
+                    Console.WriteLine(temp + " moved to index " + inner);
+                    PrintHorzArray(inner, outer, interval);
+                }
+
+                // Once we get here we have interval sorted our array
+                // so we decrement interval and go again
+                interval = (interval - 1) / 3;
+            }            
+        }
+
+        // In most situations Quick Sort is the fastest sorting algorithm
+        // Works by partitioning arrays so that the smaller numbers are on the left and larger are on the right
+        // It then recursively sends small parts of larger arrays to itself and partitions again
+        public void QuickSort(int left, int right)
+        {
+            if (right - left <= 0) {
+                return; // everything is sorted
+            }
+            else {
+                // It doesn't matter what the pivot is, but it must
+                // be a value in the array
+                int pivot = theArray[right];
+
+                Console.Write("Value in right " + theArray[right] 
+                    + " is made the pivot");
+
+                Console.Write("left = " + left + " right= " + right 
+                    + " pivot= " + pivot + " sent to be partitioned");
+
+                int pivotLocation = PartitionArray(left, right, pivot);
+
+                Console.Write("Value in left " + theArray[left] 
+                    + " is made the pivot");
+
+                QuickSort(left, pivotLocation - 1); // Sorts the left side
+                QuickSort(pivotLocation + 1, right);
+            }
+        }
+
+        public int PartitionArray(int left, int right, int pivot)
+        {
+            int leftPointer = left - 1;
+            int rightPointer = right;
+
+            while (true)
+            {
+                while (theArray[++leftPointer] < pivot)
+                    ;
+
+                PrintHorzArray(leftPointer, rightPointer);
+
+                Console.Write(theArray[leftPointer] + " in index " 
+                    + leftPointer + " is bigger than the pivot value " + pivot);
+
+                while (rightPointer > 0 && theArray[--rightPointer] > pivot)
+                    ;
+
+                PrintHorzArray(leftPointer, rightPointer);
+
+
+                Console.Write(theArray[rightPointer] + " in index " 
+                    + rightPointer + " is smaller than the pivot value "
+                    + pivot);
+
+                PrintHorzArray(leftPointer, rightPointer);
+
+                if (leftPointer >= rightPointer)
+                {
+                    Console.Write("left is >= right so start again");
+                    break;
+                }
+                else
+                {
+                    SwapValues(leftPointer, rightPointer);
+
+                    Console.Write(theArray[leftPointer] + " was swapped for "
+                        + theArray[rightPointer]);
+                }
+            }
+
+            SwapValues(leftPointer, right);
+            return leftPointer;
+        }
+
         static void Main(string[] args)
         {
             var newArray = new ArrayStructures();
             newArray.GenerateRandomArray();
-
-            var newArray1 = new ArrayStructures();
-            newArray1.GenerateRandomArray();
-            
-            //newArray.PrintArray();
+            newArray.PrintArray();
 
             /*
             Console.WriteLine(newArray.GetValueAtIndex(3));
@@ -275,8 +475,10 @@ namespace Algo
             //newArray.BinarySearchForValue(15);
 
             //newArray.SelectionSort();
-            newArray.InsertionSort();
-            
+            //newArray.InsertionSort();
+
+            //newArray.ShellSort();
+            //newArray.QuickSort(0, newArray.arraySize - 1);
             Console.ReadLine();
         }
     }
