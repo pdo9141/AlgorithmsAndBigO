@@ -4,6 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/***************************************************************
+* A binary tree is a tree data structure in which each node has at most two child nodes,
+* usually distinguished as "left" and "right"
+* Nodes with children are parent nodes, and child nodes may contain references to their parents
+* Any node in the data structure can be reached by starting at root node and repeatedly 
+* following references to either the left or right child
+* Binary trees make for very effective searches
+* If this was done on 4 billion elements, you would only have to search a maximum of 32 times
+* Therefore, the more elements contained in the tree, the more efficient your search can be.
+* Provides efficient insertion and searching
+* BST = Binary Search Tree, nodes are ordered in following way:
+*   each node contains one key (also known as data)
+*   the keys in the left subtree are less than the key in it's parent node, in short L < P
+*   the keys in the right subtree are greater than the key in its parent node, in shor P < R
+*   duplicate keys are not allowed       
+****************************************************************/
 namespace BinaryTreeApp
 {
     public class BinaryTree

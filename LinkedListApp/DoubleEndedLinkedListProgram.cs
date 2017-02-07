@@ -4,6 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/***************************************************************
+* Nice when it comes to inserting at random positions
+* Not limited in size like fixed arrays
+* Slower to access since you have to traverse list to find element
+* Elements linked using pointers (Next & Previous),  
+****************************************************************/
 namespace LinkedListApp
 {
     // A Double Ended LinkedList has a reference to 

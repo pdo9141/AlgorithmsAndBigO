@@ -4,6 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/***************************************************************
+* Nice when it comes to inserting at random positions
+* Not limited in size like fixed arrays
+* Slower to access since you have to traverse list to find element
+* Elements linked using pointers (Next) 
+* Can grow and shrink at runtime, no need to give initial size
+* Insertion and deletion of nodes are easier, no need to shift elements unlike arrays
+* No memory waste, arrays can be initialized with 10 elements but only fill up 6
+* More memory is required to store elemtns in linked list compared to array
+* Traversal is more difficult than arrays, to access node at position n you have to traverse all nodes before it
+* Reverse traversal is difficult unless it's a doubly linked list (more memory with pointer to both next and previous)
+****************************************************************/
 namespace LinkedListApp
 {
     class Link

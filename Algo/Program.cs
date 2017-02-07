@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
 
+/***************************************************************
+* In most situations Quick Sort is the fastest sorting algorithm
+****************************************************************/
 namespace Algo
 {
     public class ArrayStructures
