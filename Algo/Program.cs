@@ -11,7 +11,6 @@ namespace Algo
 {
     public class ArrayStructures
     {
-
         private int[] theArray = new int[10];
 
         private int arraySize { get { return theArray.Length; } }
